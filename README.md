@@ -6,6 +6,14 @@ This project helped me to get a glimps of how to create a lexical scanner with [
 
 Flex creates a finite state machine for you, to act as a scanner. A scanner is used to identify tokens based on a given set of rules. This is especially useful for syntactical language processing.
 
+You are going to encounter some regular expression. Therefor i would recommend reading the [flex regex documentation](http://flex.sourceforge.net/manual/Patterns.html). Also check out [regexpal](http://regexpal.com/), to see if your rule works.
+
+## Token identification
+
+The first step should be, to identify the tokens you want to find in your input and define them. See [lispish.h](lispish.h).
+
+For this example, i chose a lisp-like language. See [test script](scripts/test.lispish).
+
 ## Lexer rules
 
 To provide flex with a set of rules, you have to write a definition file. This file usually ends with .l, but you are pretty much free to use any other ending.
@@ -59,7 +67,8 @@ For example:
 }
 ```
 
-In the example above, i put a return statement at the end of my code block. This is necessary if you want to fetch tokens while you scan your input. But we will come to that later.
+In the example above, i put a return statement at the end of my code block. This is necessary if you want to fetch tokens while you scan your input. The value you return should be defined in a header file, so you can later identify your token in your parser.
+If you want to use the defined token in your rules, don't forget to include your header in the first section of your lexer file.
 
 ### Section three - additional c/cpp code
 
@@ -73,3 +82,16 @@ int yywrap( void )
     return 1;
 }
 ```
+
+## Creating your lexer
+
+To create your lexer, simply call `flex my.rules.l`. This will produce a lex.yy.c containing the code to scan input, according to your rules.
+Alternatively if you want to change the name of the output file, simply call `flex -o mylexer.c my.rules.l`.
+
+## Putting it all together
+
+To build our scanner, we need an [entry point](lispish.parser.cpp). After that, you simply build your program by calling `g++ mylexer.cpp myentrypoint.cpp -o myscanner`.
+
+To test your scanner, you can either start it directly and get a terminal-like interface, or invoke your scanner with an input file, e.g. `myscanner < myscript.script`.
+
+See [makefile](makfile) for more examples.
