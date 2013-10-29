@@ -1,6 +1,6 @@
 (define
     my-function (with some parameters)
-        (write-line (. with some parameters)
+        (write-line (. with some parameters))
 )
 /*assigns 0.618 to a-number*/
 (assign a-number 0.618)
