@@ -34,8 +34,13 @@ void your_awesome_prototype();
 %}
 ```
 
-
 Next you might want to declare the rules for identifing a token. A rule is a label followed by a regular expression.
+
+For example:
+
+```
+my-rule-label [a-zA-Z]
+```
 
 ### Section two - behaviours
 
